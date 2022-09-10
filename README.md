@@ -1,2 +1,2 @@
 # SSSnake
-A small swallowing-snake🐍 game powered by [LÖVE 💝](https://love2d.org).
+A small swallowing-snake🐍 game powered by [MonoGame](https://www.monogame.net).
