@@ -1,14 +1,19 @@
 require("utils")
 AllContents = {}
 
-function Content(name)
-    local c = {
-        name = name,
-        load = function() end,
-        init = function() end,
-    }
-    table.insert(AllContents, c)
-    return c
+Content = {
+    name = "",
+    load = function() end,
+    init = function() end,
+}
+
+function Content:new(name)
+    local o = {}
+    setmetatable(o, self)
+    o.__index = self
+    o.name = name or self.name
+    AllContents[name] = o
+    return o
 end
 
 function SnakeType(name)
