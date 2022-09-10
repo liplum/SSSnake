@@ -1,15 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace SSSnake;
 
-public class Game1 : Game
+public class SnakeGame : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    public Game1()
+    public SnakeGame()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
@@ -22,12 +23,13 @@ public class Game1 : Game
 
         base.Initialize();
     }
-
+    Texture2D whiteHeadTexture;
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
+        using var fileStream = new FileStream("Assets/white-head.png", FileMode.Open);
+        whiteHeadTexture = Texture2D.FromStream(_graphics.GraphicsDevice, fileStream);
+        //whiteHeadTexture = Content.Load<Texture2D>("white-head");
     }
 
     protected override void Update(GameTime gameTime)
@@ -43,9 +45,12 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        _graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
         // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+        _spriteBatch.Draw(whiteHeadTexture, new Vector2(0, 0), Color.White);
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
