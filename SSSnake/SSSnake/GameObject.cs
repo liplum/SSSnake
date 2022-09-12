@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using SSSnake.Components;
 using SSSnake.Entities;
 
 namespace SSSnake;
@@ -16,23 +17,11 @@ public class GameObject
     {
         if (!IsAdded)
         {
+            Group.Entites.Add(Id, this);
+            if (this is IDrawComp drawComp) Group.Drawables.Add(drawComp);
+            if (this is IUpdateComp updateComp) Group.Updateables.Add(updateComp);
+            if (this is ISyncComp syncComp) Group.Syncs.Add(syncComp);
             IsAdded = true;
         }
-    }
-
-    private readonly Dictionary<Type, IGameComponent> _components = new();
-
-    protected void AddComp<T>(T comp) where T : IGameComponent
-    {
-        _components[typeof(T)] = comp;
-    }
-
-    public virtual void InitComponents()
-    {
-    }
-
-    public T? GetComponent<T>() where T : class, IGameComponent
-    {
-        return _components[typeof(T)] as T;
     }
 }

@@ -1,41 +1,31 @@
 using Microsoft.Xna.Framework;
 using SSSnake.Components;
 using SSSnake.Math;
+using PointH = SSSnake.Core.PointH;
 
 namespace SSSnake.Entities;
 
-public class BodyPartEntity : GameObject
+public enum BodyPartType
+{
+    Head,Body,Tail
+}
+
+public class BodyPartEntity : GameObject, IUpdateComp, IDrawComp, IPosComp
 {
     public SnakeEntity Snake { get; set; }
-
-    public override void InitComponents()
+    public Point Pos { get; set; }
+    public BodyPartEntity LinkedBody;
+    public BodyPartType BodyPartType;
+    public void Update()
     {
-        base.InitComponents();
-        var body = new BodyEntityComp(this);
-        AddComp<IGameComponent>(body);
-        AddComp<IPosComp>(new PosComp());
+        if (Snake.CanBodyMove)
+        {
+            Pos = Pos + PointH.D4[Snake.Direction];
+        }
     }
 
-    public class BodyEntityComp : DrawableEntityComp
+    public void Draw()
     {
-        public readonly BodyPartEntity Entity;
-
-        public BodyEntityComp(BodyPartEntity entity)
-        {
-            Entity = entity;
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (Entity.Snake.CanBodyMove)
-            {
-                var pos = Entity.GetComponent<IPosComp>()!;
-                pos.Pos = pos.Pos.Step(Entity.Snake.Direction);
-            }
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-        }
+        
     }
 }
