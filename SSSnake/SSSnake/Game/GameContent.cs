@@ -1,10 +1,10 @@
 namespace SSSnake;
 
-public class Content
+public class GameContent
 {
     public readonly string Name;
 
-    public Content(string name)
+    public GameContent(string name)
     {
         Name = name;
     }

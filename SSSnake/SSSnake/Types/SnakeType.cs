@@ -1,6 +1,6 @@
 namespace SSSnake.Types;
 
-public class SnakeType : Content
+public class SnakeType : GameContent
 {
     public TextureRegion Head, Tail, Body;
 

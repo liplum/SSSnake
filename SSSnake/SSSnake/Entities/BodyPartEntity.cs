@@ -7,20 +7,27 @@ namespace SSSnake.Entities;
 
 public enum BodyPartType
 {
-    Head,Body,Tail
+    Head,
+    Body,
+    Tail
 }
 
 public class BodyPartEntity : GameObject, IUpdateComp, IDrawComp, IPosComp
 {
     public SnakeEntity Snake { get; set; }
     public Point Pos { get; set; }
+    public int Direction { get; set; }
+    public Point PrePos { get; set; }
+    public int PreDirection { get; set; }
     public BodyPartEntity LinkedBody;
     public BodyPartType BodyPartType;
+
     public void Update()
     {
-        if (Snake.CanBodyMove)
+        if (Snake.CanBodyMove && LinkedBody != null)
         {
-            Pos = Pos + PointH.D4[Snake.Direction];
+            Pos = LinkedBody.PrePos;
+            Direction = LinkedBody.PreDirection;
         }
     }
 
