@@ -7,6 +7,13 @@ public class TextureRegion
 {
     public TextureRegion(){}
 
+    public TextureRegion(Texture2D texture)
+    {
+        Texture = texture;
+        Width = texture.Width;
+        Height = texture.Height;
+    }
+
     public TextureRegion(TextureRegion original)
     {
         Texture = original.Texture;

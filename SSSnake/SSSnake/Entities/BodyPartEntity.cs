@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
 using SSSnake.Components;
-using SSSnake.Math;
-using PointH = SSSnake.Core.PointH;
 
 namespace SSSnake.Entities;
 

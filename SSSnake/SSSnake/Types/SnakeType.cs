@@ -4,7 +4,7 @@ public class SnakeType : GameContent
 {
     public TextureRegion Head, Tail, Body;
 
-    public SnakeType(string name) : base(name)
+    public SnakeType(string name) : base(name, ContentType.Snake)
     {
     }
 

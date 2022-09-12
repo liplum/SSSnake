@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SSSnake.Contents;
+using SSSnake.State;
 
 namespace SSSnake;
 
@@ -12,24 +14,32 @@ public class SnakeGame : Game
 
     public SnakeGame()
     {
-        _graphics = new GraphicsDeviceManager(this);
+        _graphics = new(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
         base.Initialize();
     }
-    Texture2D whiteHeadTexture;
+
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-        using var fileStream = new FileStream("Assets/white-head.png", FileMode.Open);
-        whiteHeadTexture = Texture2D.FromStream(_graphics.GraphicsDevice, fileStream);
-        //whiteHeadTexture = Content.Load<Texture2D>("white-head");
+        var textures = Vars.AssetDir.GetFiles("*.png");
+        foreach (var texture in textures)
+        {
+            using var stream = texture.Open(FileMode.Open);
+            Resource.Textures[texture.Name] = new(Texture2D.FromStream(GraphicsDevice, stream));
+        }
+        ContentLoader.Load();
+        foreach (var contents in GameContent.All)
+        {
+            foreach (var content in contents)
+            {
+                content.LoadResource();
+            }
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -40,7 +50,15 @@ public class SnakeGame : Game
 
         Time.Delta = gameTime.ElapsedGameTime;
         Time.Total = gameTime.TotalGameTime;
-        base.Update(gameTime);
+        if (Vars.State == GameState.Load)
+        {
+            var world = new World
+            {
+                Tiles = new Tile[50, 50]
+            };
+            Vars.World = world;
+            Vars.State = GameState.Play;
+        }
     }
 
     protected override void Draw(GameTime gameTime)
@@ -48,12 +66,13 @@ public class SnakeGame : Game
         Time.Delta = gameTime.ElapsedGameTime;
         Time.Total = gameTime.TotalGameTime;
         _graphics.GraphicsDevice.Clear(Color.Black);
-
-        // TODO: Add your drawing code here
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
         _spriteBatch.Begin();
-        _spriteBatch.Draw(whiteHeadTexture, new Vector2(0, 0), Color.White);
-        _spriteBatch.End();
+        if (Vars.State == GameState.Play || Vars.State == GameState.Pause)
+        {
+            Vars.World.Draw();
+        }
 
-        base.Draw(gameTime);
+        _spriteBatch.End();
     }
 }
