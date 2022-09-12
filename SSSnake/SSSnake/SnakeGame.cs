@@ -38,14 +38,16 @@ public class SnakeGame : Game
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
-
+        Time.Delta = gameTime.ElapsedGameTime;
+        Time.Total = gameTime.TotalGameTime;
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        _graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+        Time.Delta = gameTime.ElapsedGameTime;
+        Time.Total = gameTime.TotalGameTime;
+        _graphics.GraphicsDevice.Clear(Color.Black);
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
