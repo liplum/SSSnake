@@ -1,4 +1,3 @@
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SSSnake.Core;
@@ -23,6 +22,7 @@ public class TextureRegion
         Y = original.Y;
     }
     public Texture2D Texture;
+    public string Name;
     public int Width, Height;
     public int X, Y;
     public bool IsCropped => Texture.Width != Width || Texture.Height != Height;

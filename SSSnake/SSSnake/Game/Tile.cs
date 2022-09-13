@@ -10,6 +10,6 @@ public class Tile
 
     public void Draw()
     {
-        
+        Block?.Draw(this);
     }
 }

@@ -4,25 +4,38 @@ namespace SSSnake.Contents;
 
 public static class ContentLoader
 {
-    public static Block TestBlock;
     public static void Load()
     {
-        LoadFood();
-        LoadSnake();
+        Snakes.Load();
+        Foods.Load();
+        Blocks.Load();
     }
+}
 
-    private static void LoadSnake()
+public static class Snakes
+{
+    public static void Load()
     {
         var whiteSnake = new SnakeType("white");
     }
+}
 
-    private static void LoadFood()
+public static class Foods
+{
+    public static void Load()
     {
         var apple = new Food("apple");
     }
+}
 
-    private static void LoadBlock()
+public static class Blocks
+{
+    public static Block Test;
+    public static Block Error;
+
+    public static void Load()
     {
-        TestBlock = new Block("test-block");
+        Test = new BackgroundBlock("test-block");
+        Error = new BackgroundBlock("Nameless");
     }
 }

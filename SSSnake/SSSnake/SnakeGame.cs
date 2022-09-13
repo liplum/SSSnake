@@ -26,17 +26,17 @@ public class SnakeGame : Game
 
     protected override void LoadContent()
     {
-        var textures = Vars.AssetDir.GetFiles("*.png",SearchOption.AllDirectories);
+        var textures = Vars.AssetDir.GetFiles("*.png", SearchOption.AllDirectories);
         foreach (var texture in textures)
         {
             using var stream = texture.Open(FileMode.Open);
-            var name = Path.GetFileNameWithoutExtension(texture.Name); 
-            var tex = new TextureRegion(Texture2D.FromStream(GraphicsDevice, stream));
+            var name = Path.GetFileNameWithoutExtension(texture.Name);
+            var tex = new TextureRegion(Texture2D.FromStream(GraphicsDevice, stream)) { Name = name };
             Resource.Textures[name] = tex;
             if (name == Resource.ErrorName)
                 Resource.Error = tex;
-           
         }
+
         ContentLoader.Load();
         foreach (var contents in GameContent.All)
         {
@@ -57,11 +57,11 @@ public class SnakeGame : Game
         Time.Total = gameTime.TotalGameTime;
         if (Vars.State == GameState.Load)
         {
-            var world = new World
-            {
-                Tiles = new Tile[50, 50]
-            };
+            var world = new World();
+            world.CreateTiles(50, 50);
             Vars.World = world;
+            world.Tiles[0, 0].Block = Blocks.Test;
+            world.Tiles[0, 1].Block = Blocks.Error;
             Vars.State = GameState.Play;
         }
     }
@@ -72,12 +72,14 @@ public class SnakeGame : Game
         Time.Total = gameTime.TotalGameTime;
         _graphics.GraphicsDevice.Clear(Color.Black);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        Core.Draw.PushBatch(_spriteBatch);
         _spriteBatch.Begin();
         if (Vars.State is GameState.Play or GameState.Pause)
         {
             Vars.World.Draw();
         }
 
+        Core.Draw.PopBatch();
         _spriteBatch.End();
     }
 }

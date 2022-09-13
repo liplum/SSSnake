@@ -5,8 +5,27 @@ namespace SSSnake;
 
 public class World
 {
-    public int Width, Height;
-    public Tile[,] Tiles;
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+    public Tile[,] Tiles { get; private set; } = new Tile[0, 0];
+
+    public void CreateTiles(int width, int height)
+    {
+        Width = width;
+        Height = height;
+        Tiles = new Tile[width, height];
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                Tiles[x, y] = new Tile
+                {
+                    X = x,
+                    Y = y
+                };
+            }
+        }
+    }
 
     public Tile? GetTileAt(int x, int y)
     {
