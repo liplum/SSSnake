@@ -26,11 +26,16 @@ public class SnakeGame : Game
 
     protected override void LoadContent()
     {
-        var textures = Vars.AssetDir.GetFiles("*.png");
+        var textures = Vars.AssetDir.GetFiles("*.png",SearchOption.AllDirectories);
         foreach (var texture in textures)
         {
             using var stream = texture.Open(FileMode.Open);
-            Resource.Textures[texture.Name] = new(Texture2D.FromStream(GraphicsDevice, stream));
+            var name = Path.GetFileNameWithoutExtension(texture.Name); 
+            var tex = new TextureRegion(Texture2D.FromStream(GraphicsDevice, stream));
+            Resource.Textures[name] = tex;
+            if (name == Resource.ErrorName)
+                Resource.Error = tex;
+           
         }
         ContentLoader.Load();
         foreach (var contents in GameContent.All)
@@ -68,7 +73,7 @@ public class SnakeGame : Game
         _graphics.GraphicsDevice.Clear(Color.Black);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _spriteBatch.Begin();
-        if (Vars.State == GameState.Play || Vars.State == GameState.Pause)
+        if (Vars.State is GameState.Play or GameState.Pause)
         {
             Vars.World.Draw();
         }

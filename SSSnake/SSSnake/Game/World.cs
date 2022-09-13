@@ -19,9 +19,9 @@ public class World
 
     public void Draw()
     {
-        for (int x = 0; x < Width; x++)
+        for (var x = 0; x < Width; x++)
         {
-            for (int y = 0; y < Height; y++)
+            for (var y = 0; y < Height; y++)
             {
                 Tiles[x, y].Draw();
             }
