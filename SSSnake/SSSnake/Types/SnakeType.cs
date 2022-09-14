@@ -1,8 +1,10 @@
+using MonoGame.Extended.TextureAtlases;
+
 namespace SSSnake.Types;
 
 public class SnakeType : GameContent
 {
-    public TextureRegion Head, Tail, Body;
+    public TextureRegion2D Head, Tail, Body;
 
     public SnakeType(string name) : base(name, ContentType.Snake)
     {

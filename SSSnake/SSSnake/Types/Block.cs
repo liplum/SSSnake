@@ -1,4 +1,5 @@
 using System.Numerics;
+using MonoGame.Extended.TextureAtlases;
 
 namespace SSSnake.Types;
 
@@ -22,7 +23,7 @@ public class Air : Block
 
 public class BackgroundBlock : Block
 {
-    public TextureRegion Tex;
+    public TextureRegion2D Tex;
 
     public BackgroundBlock(string name) : base(name)
     {
@@ -36,6 +37,6 @@ public class BackgroundBlock : Block
 
     public override void Draw(Tile tile)
     {
-        Core.Draw.Tex(Tex, new Vector2(tile.X, tile.Y));
+        Drawf.Tex(Tex, tile.DrawXy);
     }
 }

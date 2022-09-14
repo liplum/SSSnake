@@ -1,8 +1,10 @@
 #nullable enable
+using System;
 using System.Drawing;
 
 namespace SSSnake;
 
+public delegate Tile TileProv(int x, int y);
 public class World
 {
     public int Width { get; private set; }
@@ -26,6 +28,18 @@ public class World
             }
         }
     }
+
+    public void Fill(TileProv filler)
+    {
+        for (var x = 0; x < Width; x++)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                Tiles[x, y] = filler(x, y);
+            }
+        }
+    }
+
 
     public Tile? GetTileAt(int x, int y)
     {

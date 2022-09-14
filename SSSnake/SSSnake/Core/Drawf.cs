@@ -1,10 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.TextureAtlases;
 using Vector2 = System.Numerics.Vector2;
 
 namespace SSSnake.Core;
 
-public static class Draw
+public static class Drawf
 {
     public static readonly Vector2 DefaultScale = new(1, 1);
     public static Vector2 Scale = DefaultScale;
@@ -23,19 +24,19 @@ public static class Draw
         _batch = null;
     }
 
-    public static void Tex(TextureRegion region, Vector2 pos)
+    public static void Tex(TextureRegion2D region, Vector2 pos)
     {
-        _batch.Draw(region.Texture, pos, Color);
+        _batch.Draw(region.Texture, new Vector2(pos.X - region.Width / 2f, pos.Y - region.Height / 2f), Color);
     }
 
     public static void Tex(
-        TextureRegion region, Vector2 pos, float rotation = 0f
+        TextureRegion2D region, Vector2 pos, float rotation = 0f
     )
     {
         _batch.Draw(
             texture: region.Texture,
             position: pos,
-            sourceRectangle: region.IsCropped ? new Rectangle(region.X, region.Y, region.Width, region.Height) : null,
+            sourceRectangle: region.Bounds,
             color: Color,
             rotation: rotation,
             origin: new(1, 1),
